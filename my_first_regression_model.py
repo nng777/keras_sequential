@@ -29,16 +29,10 @@ def main():
     #Train the model
     model.fit(X_train, y_train, epochs=20, batch_size=16, validation_split=0.2)
 
+
     #Evaluate the model
     loss, mae = model.evaluate(X_test, y_test, verbose=0)
-
-    # Calculate R^2 as an accuracy metric for regression
-    predictions = model.predict(X_test, verbose=0)
-    ss_res = np.sum(np.square(y_test - predictions))
-    ss_tot = np.sum(np.square(y_test - np.mean(y_test)))
-    r2 = 1 - ss_res / ss_tot
-    print(f"Test Loss: {loss:.4f} - Test Mean Absolute Error/ Mean Accuracy Value: {mae:.4f} - R2 Accuracy: {r2:.4f}")
-    print("MAE near 0 for no error prediction, and R2 near 1.0 for perfect prediction.")
+    print(f"Test Loss: {loss:.4f} - Test Mean Absolute Error: {mae:.4f}")
 
     #PredictionTest
     new_sample = np.random.rand(3, 5)
