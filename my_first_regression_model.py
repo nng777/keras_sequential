@@ -5,7 +5,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 
-def main() -> None:
+def main():
     """Build, train, evaluate and use a regression model for a prediction"""
     #Generate sample data
     #Training data: 100 samples, 5 features each
@@ -27,14 +27,21 @@ def main() -> None:
     model.compile(optimizer="adam", loss="mean_squared_error", metrics=["mae"])
 
     #Train the model
-    model.fit(X_train, y_train, epochs=20, batch_size=16, verbose=0)
+    model.fit(X_train, y_train, epochs=20, batch_size=16, validation_split=0.2)
 
     #Evaluate the model
     loss, mae = model.evaluate(X_test, y_test, verbose=0)
-    print(f"Test Loss: {loss:.4f} - Test MAE: {mae:.4f}")
+
+    # Calculate R^2 as an accuracy metric for regression
+    predictions = model.predict(X_test, verbose=0)
+    ss_res = np.sum(np.square(y_test - predictions))
+    ss_tot = np.sum(np.square(y_test - np.mean(y_test)))
+    r2 = 1 - ss_res / ss_tot
+    print(f"Test Loss: {loss:.4f} - Test Mean Absolute Error/ Mean Accuracy Value: {mae:.4f} - R2 Accuracy: {r2:.4f}")
+    print("MAE near 0 for no error prediction, and R2 near 1.0 for perfect prediction.")
 
     #PredictionTest
-    new_sample = np.random.rand(1, 5)
+    new_sample = np.random.rand(3, 5)
     prediction = model.predict(new_sample, verbose=0)
     print(f"Prediction for new sample: {prediction[0][0]:.4f}")
 
