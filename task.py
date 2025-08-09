@@ -16,4 +16,5 @@ Requirements:
 5.Train and Evaluate:
   5.1.Train the model for 20 epochs.
   5.2.Create a small test set to evaluate your model's performance.
+  5.3.After do training, use the model to make a prediction on a single new data sample and print the result.
 """
